@@ -33,7 +33,7 @@ class General(commands.Cog):
         # To initialise cpu measurement
         psutil.cpu_percent(interval=None, percpu=True)
 
-        bot.create_task(self.get_invite())
+        bot.loop.create_task(self.get_invite())
 
     def cog_unload(self):
         self.bot.help_command = self._original_help_command
