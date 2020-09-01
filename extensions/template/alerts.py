@@ -193,7 +193,9 @@ class Alerts(commands.Cog):
                 if not matches:
                     return await ctx.send(ctx.s("alerts.invalid_duration_1"))
 
-                suffixes = [match[-1] for match in matches]
+                matches = {match[-1]: int(match[:-1]) for match in matches}
+
+                suffixes = list(matches.keys())
                 if len(suffixes) != len(set(suffixes)):
                     return await ctx.send(ctx.s("alerts.invalid_duration_2"))
 
@@ -205,7 +207,7 @@ class Alerts(commands.Cog):
                     "s": 1
                 }
 
-                duration = sum([int(match[:-1]) * seconds.get(match[-1]) for match in matches])
+                duration = sum(duration * seconds.get(suffix) for suffix, duration in matches.items())
 
             if not template.alert_id:
                 return await ctx.send(ctx.s("alerts.already_muted").format(name))

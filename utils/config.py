@@ -50,6 +50,7 @@ PREVIEW_H = clamp(data.get('preview_height', 240), 0, 896)
 PREVIEW_W = clamp(data.get('preview_width', 400), 0, 896)
 MAX_TEMPLATES_PER_GUILD = clamp(data.get('max_templates_per_guild'), 1, data.get('max_templates_per_guild'))
 MAX_TEMPLATE_NAME_LENGTH = clamp(data.get('max_template_name_length'), 1, 64)
+MAX_CACHING_TEMPLATE_SIZE = data.get('max_cached_template_size', 0)
 
 LOGGING_CHANNEL_ID = data.get('logging_channel_id', None)
 CHANNEL_LOG_GUILD_RENAMES = data.get('channel_log_guild_renames', False)
