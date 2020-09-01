@@ -24,7 +24,7 @@ def image_to_array(image: Image, canvas: str) -> np.array:
             if im[y, x, 3] > 0:
                 continue
             for c, color in enumerate(palette):
-                if im[y, x, 0:3] == color:
+                if all(ch_1 == ch_2 for ch_1, ch_2 in zip(im[y, x, 0:3], color)):
                     array[x, y] = c
                     break
 
