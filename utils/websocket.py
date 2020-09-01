@@ -118,7 +118,7 @@ class PixelZoneConnection(LongrunningWSConnection):
             x, y = await self.chunk_queue.get()
 
             while not self.ready:
-                asyncio.sleep(0.5)
+                await asyncio.sleep(0.5)
 
             try:
                 await self.sio.emit("getChunk", {"x": x, "y": y})
