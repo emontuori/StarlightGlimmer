@@ -21,8 +21,12 @@ def image_to_array(image: Image, canvas: str) -> np.array:
 
     for x in range(width):
         for y in range(height):
-            if im[y, x, 3] > 0:
-                continue
+            try:
+                if im[y, x, 3] > 0:
+                    continue
+            except IndexError:
+                log.exception(f"{im[y, x, 3]} the value this failed on.")
+                raise IndexError
             for c, color in enumerate(palette):
                 if all(ch_1 == ch_2 for ch_1, ch_2 in zip(im[y, x, 0:3], color)):
                     array[x, y] = c

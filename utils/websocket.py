@@ -151,26 +151,32 @@ class PixelZoneConnection(LongrunningWSConnection):
         self.bot.loop.create_task(self.requester())
         self.bot.loop.create_task(self.expirer())
 
-        while True:
-            if self.last_failure:
-                failure_delta = time() - self.last_failure
-                if failure_delta > 60 * 5:
-                    self.failures += 1
-                    await asyncio.sleep(2 ** self.failures)
-                else:
-                    self.failures = 0
+        try:
+            log.debug("Connecting to pixelzone.io websocket...")
+            await self.sio.connect("https://pixelzone.io", headers=http.useragent)
+        except socketio.exceptions.ConnectionError:
+            log.exception("Pixelzone connection refused.")
 
-            try:
-                if self.retry:
-                    log.debug("Connecting to pixelzone.io websocket...")
-                    await self.sio.connect("https://pixelzone.io", headers=http.useragent)
-                    self.retry = False
-                await self.sio.wait()
-            except socketio.exceptions.ConnectionError:
-                log.exception("Pixelzone connection refused.")
-                self.retry = True
+        # while True:
+        #     if self.last_failure:
+        #         failure_delta = time() - self.last_failure
+        #         if failure_delta < 60 * 5:
+        #             self.failures += 1
+        #             await asyncio.sleep(2 ** self.failures)
+        #         else:
+        #             self.failures = 0
 
-            self.last_failure = time()
+        #     try:
+        #         if self.retry:
+        #             log.debug("Connecting to pixelzone.io websocket...")
+        #             await self.sio.connect("https://pixelzone.io", headers=http.useragent)
+        #             self.retry = False
+        #         await self.sio.wait()
+        #     except socketio.exceptions.ConnectionError:
+        #         log.exception("Pixelzone connection refused.")
+        #         self.retry = True
+
+        #     self.last_failure = time()
 
 
 class CachedPZChunk:
