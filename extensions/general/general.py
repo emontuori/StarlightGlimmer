@@ -33,7 +33,7 @@ class General(commands.Cog):
         # To initialise cpu measurement
         psutil.cpu_percent(interval=None, percpu=True)
 
-        self.invite = discord.utils.oauth_url(str(bot.id), permissions=config.INVITE_PERMISSIONS)
+        self.invite = discord.utils.oauth_url(str(bot.user.id), permissions=config.INVITE_PERMISSIONS)
 
     def cog_unload(self):
         self.bot.help_command = self._original_help_command
