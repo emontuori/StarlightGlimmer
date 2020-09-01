@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def image_to_array(image: Image, canvas: str) -> np.array:
-    image.convert("RGBA")
+    image = image.convert("RGBA")
     width, height = image.size
     palette = np.asarray(colors.by_name[canvas])
 
