@@ -33,6 +33,8 @@ class General(commands.Cog):
         # To initialise cpu measurement
         psutil.cpu_percent(interval=None, percpu=True)
 
+        self.invite = discord.utils.oauth_url(str(bot.id), permissions=config.INVITE_PERMISSIONS)
+
     def cog_unload(self):
         self.bot.help_command = self._original_help_command
 
@@ -57,7 +59,7 @@ class General(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.guild)
     @commands.command(name="invite")
     async def invite(self, ctx):
-        await ctx.send(config.INVITE)
+        await ctx.send(self.invite)
 
     @commands.cooldown(1, 5, commands.BucketType.guild)
     @commands.command(name="ping")

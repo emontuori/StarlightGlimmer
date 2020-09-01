@@ -2,13 +2,14 @@
     "token": "your-token-here",
     "prefix": "g!",
     "name": "Starlight Glimmer",
-    "invite": "your-invite-link-here",
+    "invite_permission_code": 387136,
     "pixelzone_api_key": null,
 
     "preview_height": 240,
     "preview_width": 400,
     "max_templates_per_guild": 25,
     "max_template_name_length": 32,
+    "max_cached_template_size": 250000,
 
     "logging_channel_id": 0,
     "debug": false,
