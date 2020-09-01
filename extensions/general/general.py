@@ -40,7 +40,7 @@ class General(commands.Cog):
 
     async def get_invite(self):
         await self.bot.wait_until_ready()
-        self.invite = discord.utils.oauth_url(str(self.bot.user.id), permissions=config.INVITE_PERMISSIONS)
+        self.invite = discord.utils.oauth_url(str(self.bot.user.id), permissions=discord.Permissions(permissions=config.INVITE_PERMISSIONS))
 
     @commands.cooldown(1, 5, commands.BucketType.guild)
     @commands.command()
