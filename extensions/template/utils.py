@@ -16,7 +16,7 @@ from objects.bot_objects import GlimContext
 from objects.database_models import Template as TemplateDb
 from objects.errors import PilImageError, UrlError
 import utils
-from utils import canvases, colors, config, converter, http, render
+from utils import canvases, colors, config, http, render
 
 log = logging.getLogger(__name__)
 
@@ -471,13 +471,13 @@ class Template:
         async with aiohttp.ClientSession() as sess:
             async with sess.get(t.url) as resp:
                 if resp.status == 200:
-                    image = Image.open(io.BytesIO(await resp.read())).convert('RGBA')
+                    image = Image.open(io.BytesIO(await resp.read()))
                 else:
                     # Skip this template, it can get updated on the next round, no point retrying and delaying the others
                     log.exception(f"File for {t.name} could not be downloaded, status code: {resp.status}")
                     return None
 
-        template = Template(t.id, t.name, converter.image_to_array(image, t.canvas), t.url, t.md5,
+        template = Template(t.id, t.name, render.image_to_array(image, t.canvas), t.url, t.md5,
                             t.x, t.y, t.alert_id, t.guild_id, t.canvas)
         log.debug(f"Generated {template}.")
         return template

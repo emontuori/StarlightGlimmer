@@ -11,6 +11,26 @@ from utils import colors, http, config, yliluoma2
 log = logging.getLogger(__name__)
 
 
+def image_to_array(image: Image, canvas: str) -> np.array:
+    image.convert("RGBA")
+    width, height = image.size
+    palette = np.asarray(colors.by_name[canvas])
+
+    im = np.asarray(image)  # shape: height, width, (RGBA)
+    array = np.full((width, height), -1, dtype=np.int8)
+
+    for x in range(width):
+        for y in range(height):
+            if im[y, x, 3] > 0:
+                continue
+            for c, color in enumerate(palette):
+                if im[y, x, 0:3] == color:
+                    array[x, y] = c
+                    break
+
+    return array
+
+
 async def calculate_size(data):
     """Calculates the number of non-transparent pixels there are in an image.
 

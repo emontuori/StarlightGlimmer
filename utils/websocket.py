@@ -14,7 +14,7 @@ from PIL import Image
 import websockets
 
 from objects.chunks import ChunkPz
-from utils import converter, canvases, colors, http
+from utils import canvases, colors, http, render
 
 
 log = logging.getLogger(__name__)
@@ -178,8 +178,7 @@ class CachedPZChunk:
         self.cx = cx
         self.cy = cy
 
-        image = image.convert("RGBA")
-        self.array = converter.image_to_array(image, "pixelzone")
+        self.array = render.image_to_array(image, "pixelzone")
 
         self.created = time()
 
