@@ -622,7 +622,7 @@ class Template(commands.Cog):
     @checks.template_adder_only()
     @snapshot.command(name='list', aliases=['l'])
     async def snapshot_list(self, ctx):
-        template_ids = ctx.session.query(TemplateDb.id).filter_by(guild_id=ctx.guild.id)#.subquery()
+        template_ids = ctx.session.query(TemplateDb.id).filter_by(guild_id=ctx.guild.id)
         snapshots = ctx.session.query(Snapshot).filter(Snapshot.base_template_id.in_(template_ids)).all()
         if not snapshots:
             return await ctx.send(f"No snapshots found, add some using `{ctx.prefix}snapshot add`")
